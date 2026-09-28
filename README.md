@@ -8,7 +8,7 @@ y usa Supabase para auth + realtime.
 
 ## Stack
 
-- **Expo** SDK 58 + **expo-router** (rutas file-based).
+- **Expo** SDK 57 + **expo-router** (rutas file-based).
 - **TypeScript**.
 - **@supabase/supabase-js** para auth (JWT) y realtime en la bitácora.
 - **@tanstack/react-query** para el estado servidor.

@@ -15,7 +15,7 @@ Responsable: David Boyd (backend + móvil). Entrega 24/11/2026.
 
 ## Stack
 
-- Expo SDK 58 + expo-router (TS).
+- Expo SDK 57 + expo-router (TS).
 - Auth y realtime: Supabase (`@supabase/supabase-js` directo desde el cliente).
 - Estado servidor: TanStack Query.
 - Notificaciones: expo-notifications locales.

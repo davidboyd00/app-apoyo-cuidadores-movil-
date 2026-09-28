@@ -8,6 +8,9 @@ export function useColorScheme() {
   const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
+    // Patrón canónico de hidratación SSR de Expo Web: marca que ya
+    // corrió en cliente para preferir el color scheme real sobre el 'light' del SSR.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHasHydrated(true);
   }, []);
 
