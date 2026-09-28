@@ -1,56 +1,57 @@
-# Welcome to your Expo app 👋
+# App móvil — Apoyo a cuidadores
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Grupo 7 · GPTI PUC 2026-2 · Entrega final 24/11/2026**
 
-## Get started
+App móvil (React Native + Expo) para cuidadores de personas dependientes.
+Consume la API [`caregivers-backend`](https://github.com/davidboyd00/app-apoyo-cuidadores)
+y usa Supabase para auth + realtime.
 
-1. Install dependencies
+## Stack
 
-   ```bash
-   npm install
-   ```
+- **Expo** SDK 58 + **expo-router** (rutas file-based).
+- **TypeScript**.
+- **@supabase/supabase-js** para auth (JWT) y realtime en la bitácora.
+- **@tanstack/react-query** para el estado servidor.
+- **expo-notifications** para recordatorios locales de medicamentos.
+- **expo-secure-store** para persistir la sesión.
 
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Cómo correr
 
 ```bash
-npm run reset-project
+npm install
+cp .env.example .env          # completar con URL/keys
+npx expo start                # abre Expo Go o dev build
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Requisitos:
+- Node 20+
+- Cuenta de Supabase con `db/schema.sql` del backend aplicado.
+- Backend corriendo (local con `uvicorn` o el deploy de Render).
 
-### Other setup steps
+## Estructura
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+```
+src/
+  app/            rutas de expo-router (screens)
+  components/     UI reutilizable
+  hooks/          hooks compartidos (auth, queries)
+  constants/      colores, tipografía, endpoints
+```
 
-## Learn more
+## Contrato con el backend
 
-To learn more about developing your project with Expo, look at the following resources:
+- Toda llamada a `/patients/**` requiere `Authorization: Bearer <jwt>` (el JWT lo emite Supabase).
+- Antes de operar contra endpoints de negocio, hay que aceptar la política vigente (`POST /me/consent`) — si no, el backend responde 409.
+- Los tipos de `app/schemas.py` del backend son la fuente de verdad del contrato; ver la sección **Contrato con Móvil** de ese repo antes de cambiarlos.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Convenciones
 
-## Join the community
+- Código y comentarios en **español** (mismo criterio que el backend, proyecto chileno).
+- Nunca enviar audio al backend: la voz se transcribe en el cliente (regla sagrada del proyecto).
+- El estado del asistente IA debe mostrar `cited_entry_ids` como chips clickeables (KPI >90% verificable).
+- Cada entrada de bitácora muestra el autor (KPI relevo familiar >60%).
 
-Join our community of developers creating universal apps.
+## Docs
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Roadmap del MVP: ver `docs/ROADMAP.md` (por escribir).
+- Contrato de API: `docs/API.md` (por escribir).
