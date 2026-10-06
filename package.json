@@ -36,6 +36,7 @@
     "@types/react": "~19.2.2",
     "eslint": "^9.39.5",
     "eslint-config-expo": "~57.0.2",
+    "openapi-typescript": "^7.13.0",
     "typescript": "~6.0.3"
   },
   "scripts": {
@@ -44,7 +45,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "types:api": "openapi-typescript https://raw.githubusercontent.com/davidboyd00/app-apoyo-cuidadores/main/openapi.json -o src/lib/api-types.ts",
+    "types:api:local": "openapi-typescript ../caregivers-backend/openapi.json -o src/lib/api-types.ts"
   },
   "private": true
 }

@@ -55,6 +55,27 @@ npx expo start
 - `EXPO_PUBLIC_SUPABASE_ANON_KEY` — key `anon` (pública), NUNCA la service role.
 - `EXPO_PUBLIC_API_URL` — base URL del backend (local: http://localhost:8000).
 
+## Contrato con el backend (tipos auto-generados)
+
+El backend genera `openapi.json` (ver `scripts/generate_openapi.py` del
+repo backend) y lo commitea. Acá consumimos ese archivo con
+`openapi-typescript` para producir `src/lib/api-types.ts`:
+
+```bash
+npm run types:api         # desde el main de GitHub (reproducible)
+npm run types:api:local   # desde ../caregivers-backend/openapi.json (dev local)
+```
+
+Importar los tipos vía `src/lib/api.ts`:
+
+```ts
+import type { Schemas } from "@/lib/api";
+type Patient = Schemas["Patient"];
+```
+
+Nunca edites `api-types.ts` a mano. Si falta un tipo, el fix es en el
+backend (`app/schemas.py` + regenerar openapi.json + commit).
+
 ## Antes de declarar una tarea terminada
 
 Correr y que pasen:
